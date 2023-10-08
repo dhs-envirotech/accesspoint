@@ -31,8 +31,8 @@ sudo python3 setup.py
 #### Bonus:
 - The setup does not require a phone hotspot in paticular. A standard home wifi can be used (and was used for testing) but this is not always available and so the hotspot is a replacement. Not much difference other than network speed (this may affect `install.sh`).
 - You can toggle the access point with `sudo python3 ap.py on|off`
-- You can change the hostname by editing the `/etc/hostname` file.
-- You can change the network number by runing `setup.py` again. It is designed to not double up on it's previous setup.
+- You can change the hostname by editing`/etc/hostname` (for network) and the `127.0.1.1` entry in `/etc/hosts` (for `sudo`).
+- You can change the network number by runing `setup.py` again. It is designed to not double up on its previous setup.
 - If the hostname doesn't seem to be working, try the following:
     - wait a maximum of 5 minutes to allow the Pi to boot up (it may just be slow)
     - Make sure the you are on the same network as the one you specified in step 0. run `arp -a` on your computer while NOT `ssh`ed into the terminal. Then try `ssh pi@[ip]` with every ip address listed.
