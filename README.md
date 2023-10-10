@@ -17,9 +17,8 @@ ssh pi@raspberrypi.local
 ```bash
 scp ap.py setup.py install.sh pi@raspberrypi.local:/home/pi/accesspoint
 ```
-4. Go to the `ssh` terminal and make sure you are in the home directory (`/home/pi/accesspoint`) with the `pwd` command. Then run the following commands in order:
+4. Go to the `ssh` terminal and make sure you are in the `accesspoint` directory (`/home/pi/accesspoint`) with the `pwd` command. Then run the following commands in order:
 ```bash
-
 sudo bash install.sh
 sudo python3 setup.py
 ```
