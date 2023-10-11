@@ -2,7 +2,7 @@ import sys, os
 
 # Config
 mode = sys.argv[1]
-path = "dhcpcd.conf"
+path = "/etc/dhcpcd.conf"
 
 start_keyword = "ap-block-start"
 end_keyword = "ap-block-end"
