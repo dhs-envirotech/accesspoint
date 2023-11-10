@@ -17,13 +17,19 @@ ssh pi@raspberrypi.local
 ```bash
 scp ap.py setup.py install.sh pi@raspberrypi.local:/home/pi/accesspoint
 ```
-4. Go to the `ssh` terminal and make sure you are in the `accesspoint` directory (`/home/pi/accesspoint`) with the `pwd` command. Then run the following commands in order:
+4. Install the software necessary:
 ```bash
 sudo bash install.sh
+```
+5. Go to the `ssh` terminal and make sure you are in the `accesspoint` directory (`/home/pi/accesspoint`) with the `pwd` command. 
+> This setup script always sets the password to the lowercase version of the provided SSID. Spaces are not allowed!
+
+Make sure to note down the credentials the scripts spits out at the end.
+```bash
 sudo python3 setup.py
 ```
-5. `sudo reboot now` to restart the computer and initialize the access point.
-6. After the Pi boots, your computer should list a new network. Connect to it with the credentials from step 4. Then, `ssh` into it with the same process as step 1.
+6. `sudo reboot now` to restart the computer and initialize the access point.
+7. After the Pi boots, your computer should list a new network. Connect to it with the credentials from step 5. Then, `ssh` into it with the same process as step 1.
 
 ### Other notes:
 - You can toggle the access point with `sudo python3 ap.py on|off`

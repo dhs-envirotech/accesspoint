@@ -1,26 +1,27 @@
 import sys
 
-network_number = str(int(input("Network number: ")))
-
-ssid="RaspberryPiTimelapse" + network_number
-password="raspberrypitimelapse" + network_number
+ssid = input("SSID (e.g. RaspberryPi3)\n> ")
+if ' ' in network_name:
+    print("\nPlease do not use spaces in the ssid.")
+    exit(1)
+password = ssid.lower()
 
 # File Contents
-dhcpcd="""# ap-block-start
+dhcpcd=f"""# ap-block-start
 interface wlan0
     static ip_address=192.168.4.1/24
     nohook wpa_supplicant
 # ap-block-end"""
 hostapd="""country_code=GB
 interface=wlan0
-ssid=SSID
+ssid={ssid}
 hw_mode=g
 channel=7
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
-wpa_passphrase=PASSWORD
+wpa_passphrase={password}
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
@@ -41,7 +42,7 @@ with open(dhcpcd_path, "r") as r:
             w.write(dhcpcd)
 
 with open("/etc/hostapd/hostapd.conf", "w") as file:
-    file.write(hostapd.replace("SSID", ssid).replace("PASSWORD", password))
+    file.write(hostapd)
 
 with open("/etc/dnsmasq.conf", "w") as file:
     file.write(dnsmasq)
@@ -51,7 +52,7 @@ print(r"""Setup completed!
 {YELLOW}SSID:{YELLOW}     {GREEN}{ssid}{RESET}
 {YELLOW}PASSWORD:{YELLOW} {GREEN}{password}{RESET}
 
-⚠️  Please reboot to enable all services. Please note your wifi network name and password as 
+⚠️  Please reboot to enable all services. Please note your wifi ssid and password as 
    your SSH connection will be lost and this access point should start its own.""".format(
     YELLOW=sys.stderr.isatty() and "\033[33m" or "",
     GREEN=sys.stderr.isatty() and "\033[32m" or "",
