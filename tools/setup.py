@@ -1,27 +1,29 @@
 import sys
 
 ssid = input("SSID (e.g. RaspberryPi3)\n> ")
-if ' ' in network_name:
-    print("\nPlease do not use spaces in the ssid.")
+if ' ' in ssid:
+    print("\nPlease do not use spaces in the ssid")
     exit(1)
-password = ssid.lower()
+if '-' in ssid:
+    print("\n'-' will be removed in the password.")
+password = ssid.replace('-', '').lower()
 
 # File Contents
-dhcpcd=f"""# ap-block-start
+dhcpcd="""# ap-block-start
 interface wlan0
     static ip_address=192.168.4.1/24
     nohook wpa_supplicant
 # ap-block-end"""
 hostapd="""country_code=GB
 interface=wlan0
-ssid={ssid}
+ssid=SSID
 hw_mode=g
 channel=7
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
-wpa_passphrase={password}
+wpa_passphrase=PASSWORD
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
@@ -42,7 +44,7 @@ with open(dhcpcd_path, "r") as r:
             w.write(dhcpcd)
 
 with open("/etc/hostapd/hostapd.conf", "w") as file:
-    file.write(hostapd)
+    file.write(hostapd.replace('SSID', ssid).replace('PASSWORD', password))
 
 with open("/etc/dnsmasq.conf", "w") as file:
     file.write(dnsmasq)

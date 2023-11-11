@@ -22,7 +22,7 @@ scp ap.py setup.py install.sh pi@raspberrypi.local:/home/pi/accesspoint
 sudo bash install.sh
 ```
 5. Go to the `ssh` terminal and make sure you are in the `accesspoint` directory (`/home/pi/accesspoint`) with the `pwd` command. 
-> This setup script always sets the password to the lowercase version of the provided SSID. Spaces are not allowed!
+> This setup script always sets the password to the lowercase version of the provided SSID. Spaces are not allowed & dashes will be removed from the password
 
 Make sure to note down the credentials the scripts spits out at the end.
 ```bash
