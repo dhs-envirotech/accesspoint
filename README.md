@@ -8,6 +8,8 @@ Setup an access point on a Raspberry Pi using only the necessary packages. Previ
 
 ### Usage
 0. [Setup the Pi](https://github.com/orgs/dhs-envirotech/discussions/6)
+
+Please use `Raspberry Pi OS Lite LEGACY 32-bit`
 1. Once you boot up the Pi, connect your computer to your phone hostspot. Then, `ssh` into it with the following command:
 ```bash
 ssh pi@raspberrypi.local
