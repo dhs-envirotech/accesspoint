@@ -1,5 +1,9 @@
 import sys, os
 
+if 'SUDO_UID' not in os.environ.keys():
+    print('Run this script with sudo!')
+    exit(1)
+
 # Config
 mode = sys.argv[1]
 path = "/etc/dhcpcd.conf"

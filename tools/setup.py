@@ -1,4 +1,9 @@
+import os
 import sys
+
+if 'SUDO_UID' not in os.environ.keys():
+    print('Run this script with sudo!')
+    exit(1)
 
 ssid = input("SSID (e.g. RaspberryPi3)\n> ")
 if ' ' in ssid:
