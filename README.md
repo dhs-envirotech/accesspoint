@@ -15,23 +15,23 @@ Please use `Raspberry Pi OS Lite LEGACY 32-bit`
 ssh pi@raspberrypi.local
 ```
 2. Open a new terminal. At this point, you should have 2 terminals: one `ssh`ed into the Pi and one `cd`ed into the `tools` directory of this repo (in your clone of course).
-3. Transfer the files `ap.py`, `setup.py`, and `install.sh` to the Pi with `scp`:
+3. Clone the repo:
 ```bash
-scp ap.py setup.py install.sh pi@raspberrypi.local:/home/pi/accesspoint
+git clone https://github.com/dhs-envirotech/accesspoint.git
 ```
-4. Install the software necessary:
+4. Install the software necessary
 ```bash
 sudo bash install.sh
 ```
-5. Go to the `ssh` terminal and make sure you are in the `accesspoint` directory (`/home/pi/accesspoint`) with the `pwd` command. 
-> This setup script always sets the password to the lowercase version of the provided SSID. Spaces are not allowed & dashes will be removed from the password
+5. Configure
+> This setup script always sets the password to the lowercase version of the provided SSID. Spaces & dashes will be removed from the password
 
-Make sure to note down the credentials the scripts spits out at the end.
+Make sure to note down the credentials the script spits out at the end.
 ```bash
-sudo python3 setup.py
+sudo python3 configure.py
 ```
 6. `sudo reboot now` to restart the computer and initialize the access point.
-7. After the Pi boots, your computer should list a new network. Connect to it with the credentials from step 5. Then, `ssh` into it with the same process as step 1.
+7. After the Pi boots, your computer should list a new network. Connect to it with the credentials from step 5. Then, `ssh` into it.
 
 ### Other notes:
 - You can toggle the access point with `sudo python3 ap.py on|off`

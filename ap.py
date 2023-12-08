@@ -51,8 +51,3 @@ with open(path, 'w') as file:
                 continue
         
         file.write(line)
-
-if not apOff:
-    yes = input('Turn on now (yes/no)?\n> ')
-    if yes == 'yes':
-        os.system('bash /home/pi/accesspoint/on.sh &')

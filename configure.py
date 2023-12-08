@@ -1,17 +1,28 @@
 import os
 import sys
+import re
 
 if 'SUDO_UID' not in os.environ.keys():
     print('Run this script with sudo!')
     exit(1)
 
-ssid = input("SSID (e.g. RaspberryPi3)\n> ")
-if ' ' in ssid:
-    print("\nPlease do not use spaces in the ssid")
+# Get input
+
+# MODIFIED SCRIPT FOR GROWBOX
+# print('This script has been modified for the Growbox project')
+# n = input('Number> ')
+# int(n)
+# ssid = 'ES Growbox ' + n
+# password = 'esgrowbox' + n
+# hostname = 'raspberrypi' + n
+
+ssid = input("SSID: ")
+password = input("Password: ").replace('-', '').replace(' ', '').lower()
+
+hostname = input(f"Hostname: ")
+if ' ' in hostname:
+    print("\nPlease do not use spaces in the hostname")
     exit(1)
-if '-' in ssid:
-    print("\n'-' will be removed in the password.")
-password = ssid.replace('-', '').lower()
 
 # File Contents
 dhcpcd="""# ap-block-start
@@ -37,7 +48,7 @@ dnsmasq="""interface=wlan0 # Listening interface
 dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
                 # Pool of IP addresses served via DHCP
 domain=wlan     # Local wireless DNS domain
-address=/gw.wlan/192.168.4.1
+address=/router.wlan/192.168.4.1
                 # Alias for this router
 """
 
@@ -54,10 +65,21 @@ with open("/etc/hostapd/hostapd.conf", "w") as file:
 with open("/etc/dnsmasq.conf", "w") as file:
     file.write(dnsmasq)
 
-print(r"""Setup completed!
+hosts = "/etc/hosts"
+with open(hosts, 'r') as file:
+    text = file.read()
+    terms = re.findall(r'[a-zA-Z0-9\-.:]+', text)
+
+with open(hosts, 'w') as file:
+    file.write(text.replace(terms[-1], hostname))
+
+os.system('sudo hostnamectl set-hostname ' + hostname)
+
+print(r"""Setup completed! Re-run for new settings.
 
 {YELLOW}SSID:{YELLOW}     {GREEN}{ssid}{RESET}
 {YELLOW}PASSWORD:{YELLOW} {GREEN}{password}{RESET}
+{YELLOW}HOSTNAME:{YELLOW} {GREEN}{hostname}{RESET}
 
 ⚠️  Please reboot to enable all services. Please note your wifi ssid and password as 
    your SSH connection will be lost and this access point should start its own.""".format(
@@ -66,4 +88,5 @@ print(r"""Setup completed!
     RESET=sys.stderr.isatty() and "\033[0m" or "",
     ssid=ssid,
     password=password,
+    hostname=hostname
 ))
