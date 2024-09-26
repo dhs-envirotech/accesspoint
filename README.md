@@ -1,3 +1,35 @@
+NOTE: This is an update to the accesspoint instructions below (Starting at "# accesspoint"
+1) Hotspot support is now part of Raspbien, can can be controlled through the graphical desktop, or the command line using "nmcli".
+2) Useful nmcli commands are as follows:
+   a) sudo nmcli device wifi hotspot ssid <YOURSSID> password <YOURPWD>
+      (Note: above will create a hotspot - YOURPWD MUST BE >=7 characters
+   b)  nmcli connection show --active
+       (Note: above will show active connections.  Use this to find the UUID of the preconfigured wireless network that you may use by default.  You will need this to
+        switch back fromm a hotspot to the preconfigured, shared network.  EX:
+
+         nmcli connection show --active 
+         NAME           UUID                                  TYPE      DEVICE 
+         preconfigured  d26740e1-5c55-4677-b5ec-b3f7b9dcbd93  wifi      wl
+
+         Use the same nmcli connection show --active  command to obtain the hotspot UUID once connected and logged in over the hotspot.
+
+       You can put the above into a script to switch back from the hotspot to the default shared network
+
+         sudo nmcli con down 43d97f0f-1351-4122-a040-9ee87ef26a27
+         sudo snmcli con up d26740e1-5c55-4677-b5ec-b3f7b9dcbd93
+
+      c)  nmcli c
+          The above will show a history of connections
+
+      USING The above information, you should be able to write a script that is called during system startup, usually as a script in /etc/init.d, and then symlinnked with
+      an appropriate name in /etc/rc3.d (this is where networking is turned on.  You could call it SNhotspot, where "N" is a number signifying where in the order you want
+      to start it.
+
+       See: https://www.novell.com/documentation/suse91/suselinux-adminguide/html/ch13s04.html
+
+   NOTES BELOW ARE ORIGINAL INSTRUCTIONS FOR HOTSPOTS
+
+
 # accesspoint
 
 [this tutorial]: https://www.raspberrypi.com/documentation/computers/configuration.html#before-you-begin
